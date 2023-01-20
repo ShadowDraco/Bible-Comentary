@@ -1,16 +1,30 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+
 import "./App.css"
-import { useEffect } from "react"
-import axios from "axios"
+import About from "./components/pages/About"
+
+import Home from "./components/pages/Home"
+import React from "react"
 
 function App() {
-  useEffect(() => {
-    console.log("requesting health")
-    axios.get("http://localhost:8000/healthy").then(res => {
-      console.log(res.data)
-    })
-  }, [])
+  const client = new QueryClient()
 
-  return <div className="App">Bible App</div>
+  return (
+    <QueryClientProvider client={client}>
+      <Router>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/about">About</a>
+        </nav>
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </Router>
+    </QueryClientProvider>
+  )
 }
 
 export default App

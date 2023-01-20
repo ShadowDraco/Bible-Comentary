@@ -44,7 +44,7 @@ app.get("/", (req, res) => {
 // check server status
 app.get("/healthy", (req, res) => {
   console.log("The server is healthy! :)".green)
-  res.status(200).json({ status: 200, message: "Healthy Server" })
+  res.status(200).json({ status: 200, message: "Healthy Server!" })
 })
 
 // include a router for user routes
