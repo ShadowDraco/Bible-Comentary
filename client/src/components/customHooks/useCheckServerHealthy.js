@@ -2,13 +2,15 @@ import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 
 export const useCheckServerHealthy = () => {
+  const apiUrl = "http://localhost:8000"
+
   const {
     data,
     refetch,
     isLoading: isServerHealthyLoading,
     error,
   } = useQuery(["healthy"], () => {
-    return axios.get(`http://localhost:8000/healthy`).then(res => res.data)
+    return axios.get(`${apiUrl}/healthy`).then(res => res.data)
   })
 
   const refetchServerHealthy = () => {

@@ -6,7 +6,7 @@ const colors = require("colors")
 // allow router to use json // maybe?
 router.use(express.json())
 
-router.get("/", (req, res) => {
+router.post("/", (req, res) => {
   console.log("user route accessed".gray)
 })
 

@@ -1,3 +1,22 @@
-body {
-  background-color: blanchedalmond;
+.bg-navajo {
+  background-color: navajowhite;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.hover {
+  background-color: initial;
+  transition: 200ms;
+}
+
+.hover:hover {
+  cursor: pointer;
+  background-color: antiquewhite;
 }
