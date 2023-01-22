@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
+import axios from "axios"
 
 import Container from "react-bootstrap/Container"
 import Form from "react-bootstrap/Form"
@@ -15,8 +16,8 @@ export default function SignupForm() {
   }
 
   const schema = yup.object().shape({
-    username: yup.string().min(7).required("Your username is required"),
-    password: yup.string().min(7).max(20).required("Your password is required"),
+    username: yup.string().min(4).required("Your username is required"),
+    password: yup.string().min(5).max(20).required("Your password is required"),
     confirmPassword: yup
       .string()
       .oneOf([yup.ref("password"), null], "Passwords Don't Match")
@@ -32,11 +33,22 @@ export default function SignupForm() {
   })
 
   const onSubmit = data => {
-    console.log(data)
+    console.log("signing up user!")
+    axios
+      .post("http://localhost:8000/signupLogin/signup", {
+        username: data.username,
+        password: data.password,
+        groupLeader: false,
+        groupCodes: {},
+        admin: false,
+      })
+      .then(res => {
+        console.log(res.data)
+      })
   }
 
   return (
-    <Container>
+    <Container className=" mt-2 mb-5">
       <h3 className="text-start hover" onClick={changeHidden}>
         Sign up to Bible App
       </h3>
@@ -67,7 +79,7 @@ export default function SignupForm() {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
               <p className="text-danger">{errors?.confirmPassword?.message}</p>
               <Form.Label>Confirm Password</Form.Label>
               <Form.Control

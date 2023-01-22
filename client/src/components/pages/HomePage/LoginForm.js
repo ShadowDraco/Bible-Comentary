@@ -15,8 +15,8 @@ export default function LoginForm() {
   }
 
   const schema = yup.object().shape({
-    username: yup.string().min(7).required("Your username is required"),
-    password: yup.string().min(7).max(20).required("Your password is required"),
+    username: yup.string().min(4).required("Your username is required"),
+    password: yup.string().min(5).max(20).required("Your password is required"),
   })
 
   const {
@@ -32,7 +32,7 @@ export default function LoginForm() {
   }
 
   return (
-    <Container>
+    <Container className=" mt-2 mb-5">
       <h3 className="text-start hover" onClick={changeHidden}>
         Log in to Bible App
       </h3>

@@ -51,6 +51,15 @@ app.get("/healthy", (req, res) => {
 const userRouter = require("./routes/user")
 app.use("/user", userRouter)
 
+// include a router for group routes
+const groupRouter = require("./routes/group")
+app.use("/group", groupRouter)
+
+// include a router for signup and login routes
+const signupLoginRouter = require("./routes/signupLogin")
+app.use("/signupLogin", signupLoginRouter)
+
+// listen to requests and responses
 app.listen(port, (req, res) => {
   console.log(`listening on port `.gray, `${port}`.yellow)
 })
