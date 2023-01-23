@@ -35,7 +35,7 @@ export default function SignupForm() {
   const onSubmit = data => {
     console.log("signing up user!")
     axios
-      .post("http://localhost:8000/signupLogin/signup", {
+      .post("http://localhost:8000/signup", {
         username: data.username,
         password: data.password,
         groupLeader: false,

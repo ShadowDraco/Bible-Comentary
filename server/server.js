@@ -55,9 +55,13 @@ app.use("/user", userRouter)
 const groupRouter = require("./routes/group")
 app.use("/group", groupRouter)
 
-// include a router for signup and login routes
-const signupLoginRouter = require("./routes/signupLogin")
-app.use("/signupLogin", signupLoginRouter)
+// include a router for signup routes
+const signupRouter = require("./routes/signup")
+app.use("/signup", signupRouter)
+
+// include a router for login routes
+const loginRouter = require("./routes/login")
+app.use("/login", loginRouter)
 
 // listen to requests and responses
 app.listen(port, (req, res) => {

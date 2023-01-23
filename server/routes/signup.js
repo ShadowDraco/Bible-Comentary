@@ -5,10 +5,6 @@ const colors = require("colors")
 
 let User = require("../models/user")
 
-router.get("/", (req, res) => {
-  console.log("sign up sign in accessed")
-})
-
 async function validateSignup(username) {
   let validated = await User.findOne({ username: username })
   console.log("Validated", validated)
@@ -18,8 +14,8 @@ async function validateSignup(username) {
 async function createNewUser(username, password) {
   let signup = new User({
     id: Math.floor(Math.random(100) * 10) + 1,
-    username: req.body.username,
-    password: req.body.password,
+    username: username,
+    password: password,
     groupLeader: false,
     groupCodes: {},
     admin: false,
@@ -29,7 +25,7 @@ async function createNewUser(username, password) {
   return signup
 }
 
-router.post("/signup", async (req, res) => {
+router.post("/", async (req, res) => {
   console.log("signing up a user".yellow)
 
   let newUser
