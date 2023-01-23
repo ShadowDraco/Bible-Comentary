@@ -38,7 +38,6 @@ export default function SignupForm() {
 
     axios
       .post("http://localhost:8000/signup", {
-      .post("http://localhost:8000/signup/", {
         username: data.username,
         password: data.password,
         groupLeader: false,
