@@ -7,7 +7,7 @@ const colors = require("colors")
 router.use(express.json())
 
 router.post("/", (req, res) => {
-  console.log("user route accessed".gray)
+  console.log("group route accessed".blue)
 })
 
 module.exports = router
