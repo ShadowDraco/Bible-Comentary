@@ -1,10 +1,11 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const Group = new Schema({
-  code: String,
-  users: Array,
-  commentary: Array,
+	name: String,
+	code: String,
+	users: Array,
+	commentary: Array,
 })
 
-module.exports = mongoose.model("Group", Group)
+module.exports = mongoose.model('Group', Group)

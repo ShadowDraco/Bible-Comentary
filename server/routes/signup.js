@@ -1,40 +1,46 @@
-const express = require("express")
+const express = require('express')
 const router = express.Router()
 
-const colors = require("colors")
+const colors = require('colors')
+const uuid = require('uuid')
 
-let User = require("../models/user")
+let User = require('../models/user')
 
 async function validateSignup(username) {
-  let validated = await User.findOne({ username: username })
-  console.log("Validated", validated)
-  return validated
+	let foundUser = await User.findOne({ username: username })
+	foundUser ? (validated = false) : (validated = true)
+
+	console.log('Validated', validated)
+	return validated
 }
 
 async function createNewUser(username, password) {
-  let signup = new User({
-    id: Math.floor(Math.random(100) * 10) + 1,
-    username: username,
-    password: password,
-    groupLeader: false,
-    groupCodes: {},
-    admin: false,
-  })
+	let signup = new User({
+		id: uuid.v4(),
+		username: username,
+		password: password,
+		groupLeader: false,
+		groupCodes: {},
+		admin: false,
+	}).save()
 
-  console.log("signup", signup)
-  return signup
+	console.log('signup', signup)
+	return signup
 }
 
-router.post("/", async (req, res) => {
-  console.log("signing up a user".yellow)
+router.post('/', async (req, res) => {
+	console.log('signing up a user'.yellow)
 
-  let newUser
+	let newUser
 
-  if (validateSignup(req.body.username)) {
-    newUser = createNewUser(req.body.username)
-  }
+	if (await validateSignup(req.body.username)) {
+		newUser = await createNewUser(req.body.username)
+	}
 
-  res.json({ message: "finished requested sign up", status: newUser })
+	res.json({
+		message: 'finished requested sign up',
+		status: newUser ? 'success' : 'username already existed',
+	})
 })
 
 module.exports = router
