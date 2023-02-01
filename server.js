@@ -49,7 +49,7 @@ app.get('/healthy', (req, res) => {
 
 // include a router for user routes
 const userRouter = require('./routes/user')
-app.use('/user', userRouter)
+app.use('/logged/user', userRouter)
 
 // include a router for group routes
 const groupRouter = require('./routes/group')

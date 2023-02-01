@@ -39,6 +39,7 @@ router.post('/', async (req, res) => {
 
 	res.json({
 		message: 'finished requested sign up',
+		username: newUser.username,
 		status: newUser ? 'success' : 'username already existed',
 	})
 })

@@ -1,40 +1,39 @@
-const express = require("express")
+const express = require('express')
 const router = express.Router()
 
-const colors = require("colors")
+const colors = require('colors')
+const uuid = require('uuid')
 
-let User = require("../models/user")
+let User = require('../models/user')
 
-async function validateSignup(username) {
-  let validated = await User.findOne({ username: username })
-  console.log("Validated", validated)
-  return validated
+const SESSION_IDS = new Map()
+
+async function validateLogin(username, password) {
+	let foundUser = await User.findOne({ username: username })
+	foundUser ? (validated = true) : (validated = false)
+
+	return validated
 }
 
-async function createNewUser(username, password) {
-  let login = new User({
-    id: Math.floor(Math.random(100) * 10) + 1,
-    username: req.body.username,
-    password: req.body.password,
-    groupLeader: false,
-    groupCodes: {},
-    admin: false,
-  })
+router.post('/', async (req, res) => {
+	console.log('logging in a user'.yellow)
 
-  console.log("login", login)
-  return signup
-}
+	let loggedUser = validateLogin(req.body.username, req.body.password)
+	let sessionId
 
-router.post("/", async (req, res) => {
-  console.log("logging in a user".yellow)
-
-  let newUser
-
-  if (validateSignup(req.body.username)) {
-    newUser = createNewUser(req.body.username)
-  }
-
-  res.json({ message: "finished requested sign up", status: newUser })
+	if (loggedUser) {
+		sessionId = uuid.v4()
+		SESSION_IDS.set(sessionId, loggedUser)
+		res
+			.cookie('sessionId', sessionId, {
+				secure: true,
+				httpOnly: true,
+				sameSite: 'none',
+			})
+			.json({})
+	} else {
+		res.json({})
+	}
 })
 
 module.exports = router
