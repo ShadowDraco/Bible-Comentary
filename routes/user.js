@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const SESSION_IDS = require('./login')
 
 const colors = require('colors')
 
@@ -8,8 +9,8 @@ router.use(express.json())
 
 router.post('/', (req, res) => {
 	console.log('user route accessed'.gray)
-
-	console.log(req.body.username, req.cookies)
+	console.log(req.cookies.sessionId)
+	res.send('hello')
 })
 
 module.exports = router

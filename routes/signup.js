@@ -15,7 +15,7 @@ async function validateSignup(username) {
 }
 
 async function createNewUser(username, password) {
-	let signup = new User({
+	let signup = await new User({
 		id: uuid.v4(),
 		username: username,
 		password: password,
@@ -34,14 +34,18 @@ router.post('/', async (req, res) => {
 	let newUser
 
 	if (await validateSignup(req.body.username)) {
-		newUser = await createNewUser(req.body.username)
+		newUser = await createNewUser(req.body.username, req.body.password)
+		res.json({
+			message: 'finished requested sign up',
+			username: newUser.username,
+			status: 'success',
+		})
+	} else {
+		res.json({
+			message: 'finished requested sign up',
+			status: 'username already existed',
+		})
 	}
-
-	res.json({
-		message: 'finished requested sign up',
-		username: newUser.username,
-		status: newUser ? 'success' : 'username already existed',
-	})
 })
 
 module.exports = router

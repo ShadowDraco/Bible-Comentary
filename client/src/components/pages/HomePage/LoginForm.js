@@ -35,16 +35,24 @@ export default function LoginForm() {
 		console.log('logging in user')
 
 		axios
-			.post('http://localhost:8000/login', {
-				username: data.username,
-				password: data.password,
-			})
+			.post(
+				'http://localhost:8000/login',
+				{
+					username: data.username,
+					password: data.password,
+				},
+				{
+					credentials: 'include',
+				}
+			)
 			.then(res => {
 				console.log(res.data)
 				setLoginMessage(res.data.status)
-				sessionStorage.setItem('USERNAME', res.data.username)
+				if (res.data.username) {
+					sessionStorage.setItem('USERNAME', res.data.username)
 
-				navigate('/logged')
+					navigate('/logged')
+				}
 			})
 	}
 

@@ -1,5 +1,7 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
+const cookieParser = require('cookie-parser')
 
 // require dotenv before using it for things
 require('dotenv').config()
@@ -15,6 +17,8 @@ const mongoURI = process.env.MONGO_URI
 // allow the server to send and receive json requests
 app.use(express.json({ limit: '5mb' })) // increase size limit of requests
 app.use(express.urlencoded({ limit: '5mb' }))
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+app.use(cookieParser())
 
 // allow the server to bypass cors issues with origins
 app.use(function (req, res, next) {
