@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import axios from 'axios'
-import { useQuery } from '@tanstack/react-query'
 
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
