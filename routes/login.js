@@ -25,9 +25,10 @@ router.post('/', async (req, res) => {
 		SESSION_IDS.set(sessionId, loggedUser)
 		res
 			.cookie('sessionId', sessionId, {
-				secure: true,
+				//secure: true,
 				httpOnly: true,
 				sameSite: 'none',
+				maxAge: 150000,
 			})
 			.json({
 				message: 'finished log in procedure',

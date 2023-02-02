@@ -9,7 +9,7 @@ router.use(express.json())
 
 router.post('/', (req, res) => {
 	console.log('user route accessed'.gray)
-	console.log(req.cookies.sessionId)
+	console.log(req.cookies)
 	res.send('hello')
 })
 
