@@ -1,11 +1,12 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import Container from 'react-bootstrap/Container'
 
 export default function Home() {
 	const [username, setUsername] = useState(sessionStorage.getItem('USERNAME'))
-	useEffect(() => {
+
+	const getCookie = () => {
 		console.log('loading logged in')
 		axios
 			.post(
@@ -13,14 +14,16 @@ export default function Home() {
 				{
 					username: username,
 				},
-				{
-					credentials: 'include',
-				}
+				{ withCredentials: true }
 			)
 			.then(res => {
 				console.log(res.data)
 			})
-	}, [username])
+	}
 
-	return <Container className='flex flex-column'>Welcome {username}</Container>
+	return (
+		<Container className='flex flex-column' onClick={getCookie}>
+			Welcome {username}
+		</Container>
+	)
 }

@@ -17,16 +17,17 @@ const mongoURI = process.env.MONGO_URI
 // allow the server to send and receive json requests
 app.use(express.json({ limit: '5mb' })) // increase size limit of requests
 app.use(express.urlencoded({ limit: '5mb' }))
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
 app.use(cookieParser())
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
 
 // allow the server to bypass cors issues with origins
 app.use(function (req, res, next) {
-	res.header('Access-Control-Allow-Origin', '*')
+	res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
 	res.header(
 		'Access-Control-Allow-Headers',
 		'Origin, X-Requested-With, Content-Type, Accept'
 	)
+
 	next()
 })
 

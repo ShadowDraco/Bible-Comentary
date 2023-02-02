@@ -41,9 +41,7 @@ export default function LoginForm() {
 					username: data.username,
 					password: data.password,
 				},
-				{
-					credentials: 'include',
-				}
+				{ withCredentials: true }
 			)
 			.then(res => {
 				console.log(res.data)

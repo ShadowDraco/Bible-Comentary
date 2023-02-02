@@ -4,9 +4,10 @@ const router = express.Router()
 const colors = require('colors')
 const uuid = require('uuid')
 
-let User = require('../models/user')
+// session ids for server
+const SESSIONS = new Map()
 
-const SESSION_IDS = new Map()
+let User = require('../models/user')
 
 async function validateLogin(username, password) {
 	let foundUser = await User.findOne({ username: username, password: password })
@@ -22,12 +23,12 @@ router.post('/', async (req, res) => {
 	if (loggedUser) {
 		let sessionId
 		sessionId = uuid.v4()
-		SESSION_IDS.set(sessionId, loggedUser)
+		SESSIONS.set(sessionId, loggedUser)
 		res
 			.cookie('sessionId', sessionId, {
 				//secure: true,
 				httpOnly: true,
-				sameSite: 'none',
+				sameSite: 'lax',
 				maxAge: 150000,
 			})
 			.json({
