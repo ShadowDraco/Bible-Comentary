@@ -12,11 +12,12 @@ const colors = require('colors')
 
 // set up mongo database
 const mongoose = require('mongoose')
+mongoose.set('strictQuery', 'true')
 const mongoURI = process.env.MONGO_URI
 
 // allow the server to send and receive json requests
 app.use(express.json({ limit: '5mb' })) // increase size limit of requests
-app.use(express.urlencoded({ limit: '5mb' }))
+app.use(express.urlencoded({ limit: '5mb', extended: true }))
 app.use(cookieParser())
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
 
@@ -55,6 +56,9 @@ app.get('/healthy', (req, res) => {
 // include a router for user routes
 const userRouter = require('./routes/user')
 app.use('/logged/user', userRouter)
+
+const logoutRouter = require('./routes/logout')
+app.use('/logged/logout', logoutRouter)
 
 // include a router for group routes
 const groupRouter = require('./routes/group')

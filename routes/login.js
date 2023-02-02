@@ -4,42 +4,57 @@ const router = express.Router()
 const colors = require('colors')
 const uuid = require('uuid')
 
-// session ids for server
-const SESSIONS = new Map()
-
+let Session = require('../models/session')
 let User = require('../models/user')
 
-async function validateLogin(username, password) {
+async function validateLogin(username, password, cookie) {
 	let foundUser = await User.findOne({ username: username, password: password })
+	let foundSession = await Session.findOne({ id: cookie })
 
-	return foundUser
+	return { foundUser, foundSession }
 }
 
 router.post('/', async (req, res) => {
 	console.log('logging in a user'.yellow)
 
-	let loggedUser = await validateLogin(req.body.username, req.body.password)
+	let loggedUser = await validateLogin(
+		req.body.username,
+		req.body.password,
+		req.cookies.session
+	)
 
-	if (loggedUser) {
+	if (loggedUser.foundUser && !loggedUser.foundSession) {
 		let sessionId
 		sessionId = uuid.v4()
-		SESSIONS.set(sessionId, loggedUser)
+
+		let newSession = await new Session({
+			id: sessionId,
+			expires: '15 minutes',
+			user: req.body.username,
+		}).save()
+
 		res
-			.cookie('sessionId', sessionId, {
+			.cookie('session', sessionId, {
 				//secure: true,
 				httpOnly: true,
 				sameSite: 'lax',
-				maxAge: 150000,
+				maxAge: 150,
 			})
 			.json({
 				message: 'finished log in procedure',
-				status: 'success!',
+				status: 'success! created new session',
 				username: req.body.username,
 			})
+	} else if (loggedUser.foundUser && loggedUser.foundSession) {
+		res.json({
+			message: 'finished log in procedure',
+			status: 'success! user is already logged in',
+			username: req.body.username,
+		})
 	} else {
 		res.json({
 			message: 'finished log in procedure',
-			status: 'username or password is incorrect!',
+			status: 'username is taken',
 		})
 	}
 })
